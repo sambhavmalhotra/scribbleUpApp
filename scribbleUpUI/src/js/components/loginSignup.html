@@ -1,0 +1,105 @@
+<div ng-controller="loginSignupController">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#/">
+                <h1>Scribble Up</h1>
+            </a>
+        </div>
+    </nav>
+    <div class="container-fluid loginSignupBody">
+        <div class="containerOverlay"></div>
+        <div class="rows">
+            <div class="row" ng-if="showMessage">
+                <div class="col col-md-6 col-lg-6"></div>
+                <div class="col col-md-5 col-lg-5 col-sm-5">
+                    <div ng-class="alertClass" id="alertDiv" role="alert">
+                        <button class="close" ng-click="closeMessageBox()">&times;</button>
+                        <div>
+                            <p ng-repeat="msg in messageBody.data">{{ msg }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-md-6 col-lg-6"></div>
+                <div class="col col-md-5 col-lg-5 col-sm-5" ng-if="showLoginBox">
+                    <div class="login-signup-box">
+                        <form name="loginForm" ng-submit="login()">
+                            <div class="form-group">
+                                <div class="input-group mb-2 input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-at"></i></div>
+                                    </div>
+                                    <input type="email" class="form-control" id="loginFormEmail" placeholder="Email" ng-model="loginDetails.email" ng-required="true" autofocus>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-2 input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-lock"></i></div>
+                                    </div>
+                                    <input type="password" class="form-control" id="loginFormPassword" placeholder="Password" ng-model="loginDetails.password" ng-required="true">
+                                </div>
+                            </div>
+                            <div class="buttons-group">
+                                <button type="submit" class="btn">Login</button>
+                            </div>
+                        </form>
+                        <div class="switchMessage">
+                            <a href="#/" ng-click="showSignUp()">I want to register</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-md-5 col-lg-5 col-sm-5" ng-if="showSignUpBox">
+                    <div class="login-signup-box">
+                        <form name="loginForm" ng-submit="signUp()">
+                            <div class="form-group">
+                                <div class="input-group mb-2 input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-user-o"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control" id="signupFormName" placeholder="Full Name" ng-model="signUpDetails.name" ng-required="true" autofocus>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-2 input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-at"></i></div>
+                                    </div>
+                                    <input type="email" class="form-control" id="signupFormEmail" placeholder="Email" ng-model="signUpDetails.email" ng-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-2 input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-lock"></i></div>
+                                    </div>
+                                    <input type="password" class="form-control" id="signupFormPassword" placeholder="Password" ng-model="signUpDetails.password" ng-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-2 input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-lock"></i></div>
+                                    </div>
+                                    <input type="password" class="form-control" id="signupFormConfirmPassword" placeholder="Confirm Password" ng-model="signUpDetails.confirmPassword"
+                                           ng-required="true">
+                                </div>
+                            </div>
+                            <div class="buttons-group">
+                                <button type="submit" class="btn">Sign Up</button>
+                            </div>
+                        </form>
+                        <div class="switchMessage">
+                            <a href="#/" ng-click="showLogin()">I am already a member</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="containerContentOverlay" ng-if="showLoader"></div>
+        <div class="containerContentOverlayContent" ng-if="showLoader">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>

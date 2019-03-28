@@ -1,0 +1,116 @@
+<div ng-controller="homeController">
+    <nav class="navbar home-navbar bg-faded">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">
+                    <h2>Scribble Up</h2>
+                </a>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle home-menu-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{userDetails.name}}
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#/" ng-click="logout()">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container homeBody">
+        <div class="rows">
+            <div class="row" ng-if="showMessage">
+                <div ng-class="alertClass" class="col-sm-10 col-lg-10 col-md-10 mx-auto">
+                    <button class="close" ng-click="closeMessageBox()">&times;</button>
+                    <div>
+                        <p ng-repeat="msg in messageBody.data">{{ msg }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-lg-4 col-md-4 mx-auto posts-heading">
+                    <h2>Posts</h2>
+                </div>
+            </div>
+            <div class="rows posts-div">
+                <div class="row">
+                    <div class="col-sm-10 col-lg-10 col-md-10 mx-auto write-post">
+                        <div class="col-sm-12 col-lg-12 mx-auto">
+                            <ul class="nav nav-tabs" id="postsTabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="write-tab" data-toggle="tab" href="#write" role="tab" aria-controls="write-tab"
+                                        aria-selected="true">Write</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="image-tab" data-toggle="tab" href="#image" role="tab" aria-controls="image-tab"
+                                       aria-selected="false">Image</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane active" id="write" role="tabpanel" aria-labelledby="write-tab">
+                                    <form name="text-form" ng-submit="savePost('TEXT')">
+                                        <textarea class="heading-textarea" placeholder="Give your thought a name..." ng-model="postContent.heading"
+                                                  ng-required="true" autofocus></textarea>
+                                        <textarea class="description-textarea" placeholder="Scribble its description here..."
+                                                  ng-model="postContent.description" ng-required="true"></textarea>
+                                        <button type="submit" class="btn post-button">Post</button>
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="image" role="tabpanel" aria-labelledby="image-tab">
+                                    <form name="image-form" ng-submit="savePost('IMAGE')">
+                                        <div class="form-group">
+                                            <textarea class="heading-textarea" placeholder="Give your thought a name..." ng-model="postContent.heading"
+                                                      ng-required="true" autofocus></textarea>
+                                        </div>
+                                        <div class="form-group" id="image-field">
+                                            <label class="custom-file-upload">
+                                                <input type="file" id="fileInput" name="imageUpload" accept="image/*"
+                                                       onchange="angular.element(this).scope().fileChanged(this)">
+                                                <i class="fa fa-cloud-upload"></i> Upload Image
+                                            </label>
+                                            <span ng-if="postContent.contentFileName">{{postContent.contentFileName}}</span>
+                                        </div>
+                                        <div ng-if="postContent.fileUploadError" class="red">
+                                            {{postContent.fileUploadError}}
+                                        </div>
+                                        <button type="submit" class="btn post-button">Post</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 col-lg-10 col-md-10 mx-auto write-post" ng-if="!showPosts">
+                        <div class="col-sm-12 col-lg-12 mx-auto post-details">
+                            <div>
+                                <b>Start by uploading your first post now</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-10 col-lg-10 col-md-10 mx-auto write-post" ng-repeat="post in postsList" ng-if="showPosts">
+                        <div class="col-sm-12 col-lg-12 mx-auto post-details">
+                            <div class="post-heading">
+                                <span>{{post.heading}}</span>
+                                <span><i>{{post.time}}</i></span>
+                            </div>
+                            <div >
+                                <span ng-if="post.postContentType === 'TEXT'">{{post.description}}</span>
+                                <span ng-if="post.postContentType === 'IMAGE'">
+                                    <img class="imageContent" ng-src="{{post.content}}" ng-click="magnifyImage(post.id)"/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="containerContentOverlay" ng-if="openImage" ng-click="hideOpenImage()"></div>
+        <div class="containerContentOverlayContent" ng-if="openImage" ng-click="hideOpenImage()">
+            <img ng-src="{{selectedPostImage}}" />
+        </div>
+        <div class="containerContentOverlay" ng-if="showLoader"></div>
+        <div class="containerContentOverlayContent" ng-if="showLoader">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
